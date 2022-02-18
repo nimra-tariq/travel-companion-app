@@ -7,7 +7,7 @@ import PlaceOrder from './components/placeDetails/PlaceDetails';
 function App() {
   return (
     <div className="App">
-      Travel Companion App
+      <Header></Header>
     </div>
   );
 }

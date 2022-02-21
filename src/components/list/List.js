@@ -1,23 +1,22 @@
 import React from 'react'
 import Typography from '@mui/material/Typography';
 import { useStyles } from './styles';
-import { Select, FormControl, Paper, InputLabel,Grid } from "@material-ui/core"
+import { Select, FormControl, Paper, InputLabel, Grid } from "@material-ui/core"
 import { useState } from 'react';
 import { MenuItem } from '@mui/material';
-import CARD from './card/CARD'
+import PlaceDetails from '../placeDetails/PlaceDetails';
 
-const List = () => {
+const List = ({ places }) => {
   const classes = useStyles();
-  const places = ['Attractions', 'Hotels', 'Resturants']
+  const placesType = ['Attractions', 'Hotels', 'Resturants']
   const ratings = [{ label: 'All', val: 0 }, { label: 'Above 3.0', val: 3 }, { label: 'Above 4.0', val: 4 }, { label: 'Above 4.5', val: 5 }]
   const [type, setType] = useState('Resturants');
   const [rating, setRating] = useState(0);
-
   return (
     <div className={classes.container}>
       <Typography
         variant="h5"
-        component="div"
+        // component="div"
         // sx={{ flexGrow: 1, display: { sm: 'block' } }}
         align='left'>
         Food and Dinning around you
@@ -30,7 +29,7 @@ const List = () => {
         <Paper>
           <Select className={classes.select} value={type} onChange={(e) => { setType(e.target.value) }}>
             {
-              places.map((item, i) => {
+              placesType.map((item, i) => {
                 return <MenuItem className={classes.list} key={i} value={item}>{item}</MenuItem>
               })
             }
@@ -51,10 +50,13 @@ const List = () => {
           </Select>
         </Paper>
       </FormControl>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-         <CARD></CARD>
-        </Grid>
+      <Grid sx={{ m: 8 }} container spacing={2} className={classes.listItems}>{
+        places?.map((place, i) => {
+          return (<Grid item key={i} xs={12} >
+            <PlaceDetails places={place}></PlaceDetails>
+          </Grid>)
+        })
+      }
       </Grid>
     </div>
   )

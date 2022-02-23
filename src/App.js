@@ -12,11 +12,12 @@ import { useEffect, useState } from 'react';
 function App() {
   const [places, setPlaces] = useState([]);
   const [cordinates, setCordinates] = useState({});
-  const [bounds, setBounds] = useState({sw:'',ne:''});
-
+  const [bounds, setBounds] = useState({ sw: '', ne: '' });
+  const [childClicked, setchildClicked] = useState(null)
+  const [isLoading, setisLoading] = useState(false)
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(({coords:{latitude,longitude}})=>{
-      setCordinates({lat:latitude,lng:longitude});
+    navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
+      setCordinates({ lat: latitude, lng: longitude });
     })
   }, [])
 
@@ -28,8 +29,10 @@ function App() {
   // }, [cordinates,bounds])
 
   useEffect(() => {
+    setisLoading(true)
     getPlacesData().then(data => {
       setPlaces(data);
+      setisLoading(false)
       console.log(data);
     });
   }, [])
@@ -39,10 +42,10 @@ function App() {
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={1}>
           <Grid item xs={12} md={4}>
-            <List places={places}></List>
+            <List isLoading={isLoading} childClicked={childClicked} places={places}></List>
           </Grid>
-          <Grid item xs={12} md={8}>
-            <Map places={places} setCordinates={setCordinates} setBounds={setBounds} cordinates={cordinates}></Map>
+          <Grid item style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} xs={12} md={8}>
+            <Map setchildClicked={setchildClicked} places={places} setCordinates={setCordinates} setBounds={setBounds} cordinates={cordinates}></Map>
           </Grid>
         </Grid>
       </Box>

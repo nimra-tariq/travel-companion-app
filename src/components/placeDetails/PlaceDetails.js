@@ -11,8 +11,9 @@ import CardActions from "@mui/material/CardActions"
 import Button from '@mui/material/Button'
 import Rating from '@mui/material/Rating';
 
-export default function PlaceDetails({ places }) {
-  const dummyImages = ['dummyResturant', 'dummyResturant1', 'dummyResturant2']
+export default function PlaceDetails({ places,selected,refProp }) {
+  const dummyImages = ['dummyResturant', 'dummyResturant1', 'dummyResturant2'];
+  if(selected)(refProp?.current?.scrollIntoView({behaviour:'smooth',block: "start"}))
   return (
     <Card elevation={6} sx={{ maxWidth: 345 }}>
       <CardMedia

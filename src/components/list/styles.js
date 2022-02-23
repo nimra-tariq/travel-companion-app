@@ -12,9 +12,9 @@ export const useStyles = makeStyles(theme => createStyles({
         padding: '10px'
     }
     ,
-    listItem: {
+    listItems: {
         height: '75vh',
-        overflow: 'auto',
+        overflow: 'scroll',
 
     }
 }))

@@ -1,0 +1,40 @@
+
+div a {
+    text-decoration: none;
+}
+span{
+    font-size: 0.86em;
+    font-weight: bold;
+}
+.footer{
+    text-align: center;
+}
+.nav-link {
+	margin: 0 5px;
+}
+.nav-link img {
+	border-radius: 50%;
+	width: 36px;
+	height: 36px;
+	margin: -8px 0;
+	margin-right: 10px;
+}
+.footerContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center !important;
+}
+.nav-link{
+    display: inline !important;
+}
+.iconContainer{
+    display: flex;
+    justify-content: center;
+}
+div.bgFooter{
+    background-color: #ad9f8e3b; 
+}
+div.footer:nth-child(2){
+    line-height: 2.3em;
+    color: green;
+}

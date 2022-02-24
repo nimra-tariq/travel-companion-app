@@ -11,29 +11,30 @@ import CardActions from "@mui/material/CardActions"
 import Button from '@mui/material/Button'
 import Rating from '@mui/material/Rating';
 
-export default function PlaceDetails({ places,selected,refProp }) {
-  const dummyImages = ['dummyResturant', 'dummyResturant1', 'dummyResturant2'];
-  if(selected)(refProp?.current?.scrollIntoView({behaviour:'smooth',block: "start"}))
+export default function PlaceDetails({ places, selected, refProp }) {
+
+  if (selected) (refProp?.current?.scrollIntoView({ behaviour: 'smooth', block: "start" }))
+
   return (
     <Card elevation={6} sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         alt={places.name}
         height="140"
-        image={places.photo ? places.photo.images.large.url : dummyImages[Math.floor(Math.random() * 3)] + '.jpg'}
+        image={(places.photo && places.photo.images.large.url !== null) ? places.photo.images.large.url : 'dummyImg.jpg'}
       />
       <CardContent>
         <Typography gutterBottom variant="h6" component="div">
           {places.name}
         </Typography>
         {places.ranking &&
-          <Box display='flex' justifyContent='space-between'>
+          <Box sx={{ my: 0.5 }} display='flex' flexWrap='wrap' justifyContent='space-between'>
             <Rating name="read-only" value={Number(places.rating)} readOnly />
             <Typography variant="body2" color="text.secondary">
               out of {places.num_reviews} reviews
             </Typography>
           </Box>}
-        <Box display='flex' justifyContent='space-between'>
+        <Box sx={{ my: 0.5 }} display='flex' justifyContent='space-between'>
           <Typography variant="body2" color="text.secondary">
             Price
           </Typography>
@@ -46,33 +47,31 @@ export default function PlaceDetails({ places,selected,refProp }) {
             <Typography variant="body2" color="text.secondary">
               Ranking
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography textAlign='right' variant="body2" color="text.secondary">
               {places.ranking}
             </Typography>
           </Box>}
-        {places?.awards?.map((award) => {
-          return <Box display='flex' justifyContent='space-between'>
+        {places?.awards?.map((award, i) => {
+          return <Box display='flex' key={i} justifyContent='space-between'>
+            <img src={award.images.small} />
             <Typography variant="body2" color="text.secondary">
-              {award.images.small}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {award.display}
+              {award.display_name}
             </Typography>
           </Box>
         })}
         {places?.cuisine ?
-          <Box >
-            {places.cuisine?.map((name) => {
-              return <Chip sixe='small' key={name.key} label={name.name} />
+          <Box sx={{ my: 1 }}>
+            {places.cuisine?.map((name, i) => {
+              return <Chip key={i} sixe='small' key={name.key} label={name.name} />
             })}
           </Box> : ''
-        }{places.phone && <Box display='flex' justifyContent='space-between'>
+        }{places.phone && <Box sx={{ my: 0.5 }} display='flex' flexWrap='wrap' justifyContent='space-between'>
           <LocalPhoneIcon></LocalPhoneIcon>
           <Typography variant="body2" color="text.secondary">
             {places.phone}
           </Typography>
         </Box>}
-        {places.address && <Box display='flex' justifyContent='space-between'>
+        {places.address && <Box sx={{ my: 0.5 }} display='flex' justifyContent='space-between'>
           <LocationOnIcon></LocationOnIcon>
           <Typography textAlign='right' variant="body2" color="text.secondary">
             {places.address}
@@ -80,8 +79,8 @@ export default function PlaceDetails({ places,selected,refProp }) {
         </Box>}
       </CardContent>
       <CardActions>
-        {places.website && <Button size="small" onClick={() => { window.open(places.website) }}>Website</Button>}
-        {places.web_url && <Button size="small" onClick={() => { window.open(places.web_url, 'blank') }}>Trip Advisor</Button>}
+        {places.website && <Button variant="contained" style={{ background: '#2E3B55' }} size="small" onClick={() => { window.open(places.website, '_blank') }}>Website</Button>}
+        {places.web_url && <Button variant="contained" style={{ background: '#2E3B55' }} size="small" onClick={() => { window.open(places.web_url, '_blank') }}>Trip Advisor</Button>}
       </CardActions>
     </Card>
 

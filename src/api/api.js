@@ -1,52 +1,52 @@
 import axios from "axios";
 
-const url = 'https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary';
+export async function getPlacesData(sw, ne, type) {
 
-// export async function getPlacesData(sw, ne) {
+    try {
 
-//     try {
+        const { data: { data } } = await axios.get(`https://travel-advisor.p.rapidapi.com/${type}/list-in-boundary`, {
+            params: {
+                bl_latitude: sw.lat,
+                tr_latitude: ne.lat,
+                bl_longitude: sw.lng,
+                tr_longitude: ne.lng,
+            }
+            ,
+            headers: {
+                'x-rapidapi-host': 'travel-advisor.p.rapidapi.com',
+                'x-rapidapi-key': process.env.REACT_APP_RAPID_API_KEY
+            }
+        });
 
-//         const { data: { data } } = await axios.get(url, {
-//             params: {
-//                 bl_latitude: sw.lat,
-//                 tr_latitude: ne.lat,
-//                 bl_longitude: sw.lng,
-//                 tr_longitude: ne.lng,
-//             },
-//             headers: {
-//                 'x-rapidapi-host': 'travel-advisor.p.rapidapi.com',
-//                 'x-rapidapi-key': 'f9d6434f11msh99526a50172080fp108701jsnc333b6b6328f'
-//             }
-//         });
+        return data;
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
 
-//         return data;
-//     }
-//     catch (e) {
-//         console.log(e);
-//     }
-// }
+export async function getWeatherData(lat, lng) {
 
-
-export async function getPlacesData() {
-
-        try {
-    
-            const { data: { data } } = await axios.get(url, {
+    try {
+        if (lat && lng) {
+            const { data } = await axios.get('https://community-open-weather-map.p.rapidapi.com/find', {
                 params: {
-                    bl_latitude: '31.39925934417171',
-                    tr_latitude: '31.44320590774619',
-                    bl_longitude: '73.07284770139162',
-                    tr_longitude: '73.12486109860842',
-                },
+                    lat: lat,
+                    lon: lng
+                }
+                ,
                 headers: {
-                    'x-rapidapi-host': 'travel-advisor.p.rapidapi.com',
-                    'x-rapidapi-key': 'f9d6434f11msh99526a50172080fp108701jsnc333b6b6328f'
+                    'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com',
+                    'x-rapidapi-key': process.env.REACT_APP_RAPID_API_KEY
                 }
             });
-    
+
             return data;
         }
-        catch (e) {
-            console.log(e);
-        }
     }
+    catch (e) {
+        console.log(e);
+    }
+}
+
+

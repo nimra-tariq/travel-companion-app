@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { useStyles } from './styles';
+import { Autocomplete } from '@react-google-maps/api'
+import { useState } from 'react';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -50,15 +52,25 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Header() {
+export default function Header({setCordinates}) {
+
   const classes = useStyles();
+  const [autocomplete, setautocomplete] = useState(null)
+  //it will provide the autocomplete place details 
+  const onLoad = (autoC) => { setautocomplete(autoC) }
+  //set the bounds of selected place using autocomplete
+  const onPlaceChanged=()=>{
+    const lat=autocomplete.getPlace().geometry.location.lat;
+    const lng=autocomplete.getPlace().geometry.location.lng;
+    setCordinates({latitude:lat,longitude:lng});
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ background: '#2E3B55' }}>
         <Toolbar>
           <Typography
             variant="h6"
-            // noWrap
             component="span"
             sx={{ flexGrow: 1, display: { sm: 'block' } }}
             align='left'
@@ -72,15 +84,22 @@ export default function Header() {
           >
             Explore New Places
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
+
+          {/* <Autocomplete
+            onLoad={onLoad}
+            onPlaceChanged={onPlaceChanged}
+          >
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search>
+          </Autocomplete> */}
+
         </Toolbar>
       </AppBar>
     </Box>
